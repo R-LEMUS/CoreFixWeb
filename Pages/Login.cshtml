@@ -1,0 +1,30 @@
+@page
+@model CoreFixWeb.Pages.LoginModel
+@{
+    Layout = "_Layout";
+}
+
+<div class="container mt-5">
+    <h2>Iniciar Sesión</h2>
+
+    <form method="post" class="mt-4" style="max-width: 400px;">
+        <div class="form-group mb-3">
+            <label asp-for="Correo">Correo electrónico</label>
+            <input asp-for="Correo" class="form-control" />
+            <span asp-validation-for="Correo" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Contraseña">Contraseña</label>
+            <input asp-for="Contraseña" type="password" class="form-control" />
+            <span asp-validation-for="Contraseña" class="text-danger"></span>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.MensajeError))
+        {
+            <div class="alert alert-danger">@Model.MensajeError</div>
+        }
+
+        <button type="submit" class="btn btn-primary">Ingresar</button>
+    </form>
+</div>

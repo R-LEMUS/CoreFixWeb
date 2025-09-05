@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreFixWeb", "CoreFixWeb.csproj", "{72BC1807-5852-77B0-E9F5-B9086C93F85A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72BC1807-5852-77B0-E9F5-B9086C93F85A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72BC1807-5852-77B0-E9F5-B9086C93F85A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72BC1807-5852-77B0-E9F5-B9086C93F85A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72BC1807-5852-77B0-E9F5-B9086C93F85A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14412A06-37E6-41D9-A816-6AAC5361F52D}
+	EndGlobalSection
+EndGlobal
