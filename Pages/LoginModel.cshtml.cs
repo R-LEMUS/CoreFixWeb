@@ -29,9 +29,10 @@ namespace CoreFixWeb.Pages
 
         public string MensajeError { get; set; }
 
-        public IActionResult OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            var usuario = _context.Usuarios.FirstOrDefault(u => u.Correo == Correo && u.Contraseña == Contraseña);
+            var usuario = _context.Usuarios.
+            FirstOrDefault(u => u.Correo == Correo && u.Contraseña == Contraseña);
 
             if (usuario == null)
             {
@@ -41,7 +42,7 @@ namespace CoreFixWeb.Pages
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, usuario.Nombre),
+                new Claim("Nombre", usuario.Nombre ?? "Usuario"),
                 new Claim("ID_usuario", usuario.ID_usuario.ToString()),
                 new Claim(ClaimTypes.Role, usuario.Puesto ?? "Usuario")
             };
@@ -49,7 +50,21 @@ namespace CoreFixWeb.Pages
             var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
 
-            _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
+            await HttpContext.SignInAsync
+            (CookieAuthenticationDefaults.AuthenticationScheme, principal);
+
+            if(usuario.Puesto == "Empleado")
+            {
+                return RedirectToPage("/Empleado/Reportes");
+            }
+            else if(usuario.Puesto == "Supervisor")
+            {
+                return RedirectToPage("/Supervisor/Reportes");
+            }
+            else if(usuario.Puesto == "Ingeniero")
+            {
+                return RedirectToPage("/Ingeniero/Reportes");
+            }
 
             return RedirectToPage("/Reportes");
         }

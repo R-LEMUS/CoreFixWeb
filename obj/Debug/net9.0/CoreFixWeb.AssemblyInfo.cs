@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("CoreFixWeb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8e97ad1e05da321670754172456ccbdfc018aada")]
 [assembly: System.Reflection.AssemblyProductAttribute("CoreFixWeb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("CoreFixWeb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -27,6 +27,14 @@ namespace CoreFixWeb.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Reporte>()
+                .Property(r => r.ID_reporte)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Reporte>()
+                .Property(r => r.Numero_Reporte)
+                .IsRequired();
+
+            modelBuilder.Entity<Reporte>()
                 .HasOne(r => r.Equipo)
                 .WithMany(e => e.Reportes)
                 .HasForeignKey(r => r.ID_equipo);
@@ -35,6 +43,12 @@ namespace CoreFixWeb.Data
                 .HasOne(r => r.EstadoReporte)
                 .WithMany(er => er.Reportes)
                 .HasForeignKey(r => r.ID_estado_reporte);
+
+            modelBuilder.Entity<Reporte>()
+                .HasOne(r => r.SupervisorValidador)
+                .WithMany()
+                .HasForeignKey(r => r.ID_supervisor_validador)
+                .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Evidencia>()
                 .HasOne(e => e.Usuario)
@@ -48,11 +62,22 @@ namespace CoreFixWeb.Data
                 .HasForeignKey(e => e.ID_reporte)
                 .OnDelete(DeleteBehavior.Cascade);
 
+            modelBuilder.Entity<Evidencia>()
+                .Property(e => e.ID_evidencia)
+                .ValueGeneratedOnAdd();
+
+            modelBuilder.Entity<Evidencia>()
+                .Property(e => e.Numero_Evidencia)
+                .IsRequired();
+
             modelBuilder.Entity<Mantenimiento>()
                 .HasOne(m => m.Reporte)
                 .WithMany(r => r.Mantenimientos)
                 .HasForeignKey(m => m.ID_reporte)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Estado_reporte>()
+                .ToTable("Estado_reporte");
         }
     }
 }

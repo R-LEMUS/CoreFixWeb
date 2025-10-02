@@ -84,7 +84,7 @@ namespace CoreFixWeb.Migrations
 
                     b.HasKey("ID_estado_reporte");
 
-                    b.ToTable("EstadosReportes");
+                    b.ToTable("Estado_reporte", (string)null);
                 });
 
             modelBuilder.Entity("CoreFixWeb.Data.Evidencia", b =>
@@ -107,8 +107,11 @@ namespace CoreFixWeb.Migrations
                     b.Property<int>("ID_usuario")
                         .HasColumnType("int");
 
-                    b.Property<byte[]>("Imagen")
-                        .HasColumnType("varbinary(max)");
+                    b.Property<int>("Numero_Evidencia")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Ruta")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID_evidencia");
 
@@ -184,6 +187,9 @@ namespace CoreFixWeb.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ID_usuario")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Numero_Reporte")
                         .HasColumnType("int");
 
                     b.Property<int?>("TecnicoAsignadoID_usuario")

@@ -1,0 +1,37 @@
+@page
+@model CoreFixWeb.Pages.Supervisor.DetallesModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Detalles del Reporte #@Model.Reporte.Numero_Reporte</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><strong>Empleado:</strong> @Model.Reporte.Usuario?.Nombre</p>
+        <p><strong>Equipo:</strong> @Model.Reporte.Equipo?.Nombre</p>
+        <p><strong>Fecha:</strong> @Model.Reporte.Fecha_reporte.ToString("dd/MM/yyyy HH:mm")</p>
+        <p><strong>Estado:</strong> <span class="badge bg-info">@Model.Reporte.EstadoReporte?.Estado</span></p>
+        <p><strong>Descripción:</strong></p>
+        <p>@Model.Reporte.Descripcion</p>
+
+        <h4>Evidencias</h4>
+        @if (Model.Reporte.Evidencias?.Any() == true)
+        {
+            <ul>
+                @foreach (var e in Model.Reporte.Evidencias.OrderBy(ev => ev.Numero_Evidencia))
+                {
+                    <li>
+                        <a href="@e.Ruta" target="_blank">Evidencia @e.Numero_Evidencia</a>
+                    </li>
+                }
+            </ul>
+        }
+        else
+        {
+            <p class="text-muted">No hay evidencias.</p>
+        }
+    </div>
+</div>
+
+<a class="btn btn-secondary" asp-page="./Reportes">Regresar</a>

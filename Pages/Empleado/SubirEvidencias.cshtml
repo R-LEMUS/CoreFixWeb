@@ -1,0 +1,29 @@
+@page "{id:int}"
+@model CoreFixWeb.Pages.Empleado.SubirEvidenciasModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Subir Evidencia</h2>
+
+@if (Model.ModelState.ErrorCount > 0)
+{
+    <div class="alert alert-danger">
+        <ul>
+            @foreach (var error in Model.ModelState.Values.SelectMany(v => v.Errors))
+            {
+                <li>@error.ErrorMessage</li>
+            }
+        </ul>
+    </div>
+}
+
+<form method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label for="archivo">Selecciona un archivo:</label>
+        <input type="file" class="form-control" id="archivo" name="Archivo" />
+    </div>
+    <button type="submit" class="btn btn-primary mt-2">Subir</button>
+</form>
+
+<a asp-page="/Empleado/Reportes" class="btn btn-secondary mt-2">Regresar</a>

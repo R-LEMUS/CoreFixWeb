@@ -1,0 +1,72 @@
+@page
+@model CoreFixWeb.Pages.Empleado.ReportesModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Mis Reportes</h2>
+
+<a class="btn btn-sm btn-primary" asp-page="/Empleado/NuevoReporte">Crear Reporte</a>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Folio</th>
+            <th>Usuario</th>
+            <th>Fecha</th>
+            <th>Equipo</th>
+            <th>Descripción</th>
+            <th>Estado</th>
+            <th>Evidencias</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model.Reportes)
+        {
+            <tr>
+                <td>@r.Numero_Reporte</td>
+                <td>@r.Usuario?.Nombre</td>
+                <td>@r.Fecha_reporte.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@r.Equipo?.Nombre</td>
+                <td>@r.Descripcion</td>
+                <td>@r.EstadoReporte.Estado</td>
+                <td>
+                    @if (r.Evidencias != null && r.Evidencias.Any())
+                    {
+                        <ul>
+                            @foreach (var e in r.Evidencias)
+                            {
+                                <li>
+                                    <a href="@e.Ruta" target="_blank">Evidencia @e.Numero_Evidencia</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span>No hay evidencias</span>
+                    }
+                </td>
+                <td>
+                    @if (r.ID_estado_reporte == 7)
+                    {
+                        <form method="post" asp-page-handler="Reenviar" asp-route-id="@r.ID_reporte"
+                            style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-primary">Reenviar</button>
+                        </form>
+                    }
+                    else 
+                    {
+                        <a class="btn btn-sm btn-primary" asp-page="./SubirEvidencias" asp-route-id="
+                        @r.ID_reporte">Subir Evidencias</a>
+                    }
+                </td>
+                <td>
+                    <form method="post" asp-page-handler="Eliminar" asp-route-id="@r.ID_reporte" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

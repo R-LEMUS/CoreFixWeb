@@ -65,12 +65,17 @@ namespace CoreFixWeb.Data
         public DateTime Fecha_reporte { get; set; }
         public DateTime? Fecha_cierre { get; set; }
 
+        public int Numero_Reporte { get; set; }
+
         // Relaciones
         public Usuario? Usuario { get; set; }
         public Equipo? Equipo { get; set; }
         public Estado_reporte? EstadoReporte { get; set; }
         public int? ID_tecnico_asignado { get; set; }
         public Usuario? TecnicoAsignado { get; set; }
+
+        public int? ID_supervisor_validador { get; set; }
+        public Usuario? SupervisorValidador { get; set; }
 
         // Relación con Evidencia
         public ICollection<Evidencia>? Evidencias { get; set; }
@@ -84,8 +89,10 @@ namespace CoreFixWeb.Data
         public int ID_reporte { get; set; }
         public int ID_usuario { get; set; }
         public string? Descripcion { get; set; }
-        public byte[]? Imagen { get; set; }
+        public string? Ruta { get; set; }
         public DateTime Fecha_subida { get; set; }
+
+        public int Numero_Evidencia { get; set; }
 
         // Relaciones
         public Reporte? Reporte { get; set; }
