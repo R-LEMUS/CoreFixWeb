@@ -52,8 +52,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/rlemu/CoreFixWeb/Pages/Ingeniero/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5nZW5pZXJvXERldGFsbGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/rlemu/CoreFixWeb/Pages/Ingeniero/Equipos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5nZW5pZXJvXEVxdWlwb3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/rlemu/CoreFixWeb/Pages/Ingeniero/Reportes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5nZW5pZXJvXFJlcG9ydGVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/rlemu/CoreFixWeb/Pages/Ingeniero/ReportesPorEquipo.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5nZW5pZXJvXFJlcG9ydGVzUG9yRXF1aXBvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/rlemu/CoreFixWeb/Pages/Login.cshtml]
@@ -78,6 +90,18 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/rlemu/CoreFixWeb/Pages/Supervisor/Reportes.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU3VwZXJ2aXNvclxSZXBvcnRlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/rlemu/CoreFixWeb/Pages/Tecnico/Detalles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjbmljb1xEZXRhbGxlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/rlemu/CoreFixWeb/Pages/Tecnico/Reportes.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjbmljb1xSZXBvcnRlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/rlemu/CoreFixWeb/Pages/Tecnico/SubirEvidencias.cshtml]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcVGVjbmljb1xTdWJpckV2aWRlbmNpYXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/rlemu/CoreFixWeb/Pages/_ViewImports.cshtml]

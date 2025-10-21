@@ -15,6 +15,7 @@ namespace CoreFixWeb.Data
         public DbSet<Reporte> Reportes { get; set; }
         public DbSet<Evidencia> Evidencias { get; set; }
         public DbSet<Mantenimiento> Mantenimientos { get; set; }
+        public DbSet<Archivado> Archivados { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +25,12 @@ namespace CoreFixWeb.Data
                 .HasOne(r => r.Usuario)
                 .WithMany(u => u.Reportes)
                 .HasForeignKey(r => r.ID_usuario)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<Reporte>()
+                .HasOne(r => r.TecnicoAsignado)
+                .WithMany()
+                .HasForeignKey(r => r.ID_tecnico_asignado)
                 .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Reporte>()
@@ -78,6 +85,18 @@ namespace CoreFixWeb.Data
 
             modelBuilder.Entity<Estado_reporte>()
                 .ToTable("Estado_reporte");
+
+            modelBuilder.Entity<Archivado>()
+                .HasOne(a => a.Reporte)
+                .WithMany()
+                .HasForeignKey(a => a.ID_reporte)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Archivado>()
+                .HasOne(a => a.Usuario)
+                .WithMany()
+                .HasForeignKey(a => a.ID_usuario)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

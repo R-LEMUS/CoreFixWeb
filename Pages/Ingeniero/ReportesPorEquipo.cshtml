@@ -1,0 +1,78 @@
+@page
+@model CoreFixWeb.Pages.Ingeniero.ReportesPorEquipoModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Reportes - @Model.Equipo.Nombre</h2>
+<p class="text-muted">Ubicación: @Model.Equipo.Ubicacion</p>
+
+@if (Model.Reportes.Count == 0)
+{
+    <div class="alert alert-info">No hay reportes para este equipo.</div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Folio</th>
+                <th>Empleado</th>
+                <th>Descripción</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Técnico</th>
+                <th>Prioridad</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var r in Model.Reportes)
+            {
+                <tr>
+                    <td>@r.Numero_Reporte</td>
+                    <td>@r.Usuario?.Nombre</td>
+                    <td>@r.Descripcion</td>
+                    <td>@r.Fecha_reporte.ToString("dd/MM HH:mm")</td>
+                    <td>@r.EstadoReporte.Estado</td>
+                    <td>
+                        @if (r.TecnicoAsignado != null)
+                        {
+                            <span>@r.TecnicoAsignado.Nombre</span>
+                        }
+                        else
+                        {
+                            <span class="text-muted">—————</span>
+                        }
+                    </td>
+                    <td>
+                        @switch (r.Prioridad)
+                        {
+                            case "Critica":
+                                <span class="badge bg-danger">Crítica</span>
+                                break;
+                            case "Alta":
+                                <span class="badge bg-warning text-dark">Alta</span>
+                                break;
+                            case "Media":
+                                <span class="badge bg-warning">Media</span>
+                                break;
+                            case "Baja":
+                                <span class="badge bg-success">Baja</span>
+                                break;
+                            default:
+                                <span class="badge bg-secondary">—————</span>
+                                break;
+                        }
+                    </td>
+                    <td>
+                        <a class="btn btn-sm btn-secondary ms-1" asp-page="./Detalles" asp-route-id="@r.ID_reporte">Ver</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<a asp-page="/Ingeniero/Equipos" class="btn btn-secondary mt-3">Ir a Equipos</a>
+<a asp-page="/Ingeniero/Reportes" class="btn btn-secondary mt-3 ms-2">Ir a Reportes</a>

@@ -17,6 +17,11 @@
         <textarea asp-for="Reporte.Descripcion" class="form-control"></textarea>
     </div>
 
+    <div class="form-group mt-2">
+        <label for="Reporte.Prioridad">Prioridad</label>
+        <select asp-for="Reporte.Prioridad" class="form-control" asp-items="Model.Prioridades"></select>
+    </div>
+
     <button type="submit" class="btn btn-primary mt-3">Guardar</button>
     <a asp-page="/Empleado/Reportes" class="btn btn-secondary mt-3">Cancelar</a>
 </form>

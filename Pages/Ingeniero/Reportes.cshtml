@@ -1,0 +1,185 @@
+@page
+@model CoreFixWeb.Pages.Ingeniero.ReportesModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Reportes</h2>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["MensajeExito"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["MensajeError"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="card mb-3">
+    <div class="card-body">
+        <form method="get" class="row g-2 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label">Buscar</label>
+                <input type="text" asp-for="Busqueda" class="form-control" placeholder="Folio o descripción" />
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Estado</label>
+                <select asp-for="EstadoFiltro" class="form-select" onchange="this.form.submit()">
+                    <option value="">Todos</option>
+                    @foreach (var e in Model.Estados)
+                    {
+                        <option value="@e.ID_estado_reporte">@e.Estado</option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Prioridad</label>
+                <select asp-for="PrioridadFiltro" class="form-select" onchange="this.form.submit()">
+                    <option value="">Todas</option>
+                    @foreach (var p in Model.Prioridades)
+                    {
+                        <option value="@p" selected="@(Model.PrioridadFiltro == p)">
+                        @p
+                        </option>
+                    }
+                </select>
+            </div>
+
+            <div class="col-md-2">
+                <label class="form-label">Ordenar por</label>
+                <select asp-for="OrdenarPor" class="form-select" onchange="this.form.submit()">
+                    <option value="FechaDesc">Fecha (reciente)</option>
+                    <option value="FechaAsc">Fecha (antigua)</option>
+                </select>
+            </div>
+
+            <div class="col-md-3 d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Aplicar</button>
+                <a asp-page="./Reportes" class="btn btn-outline-secondary">Limpiar</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<form method="get" class="mb-3">
+    <input type="hidden" name="VerArchivados" value="@(Model.VerArchivados ? "false" : "true")" />
+    <button type="submit" class="btn btn-outline-secondary">
+        @(Model.VerArchivados ? "Ver reportes activos" : "Ver archivados")
+    </button>
+</form>
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Folio</th>
+            <th>Equipo</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Técnico</th>
+            <th>Evidencias</th>
+            <th>Prioridad</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model.Reportes)
+        {
+            <tr>
+                <td>@r.Numero_Reporte</td>
+                <td>@r.Equipo?.Nombre</td>
+                <td>@r.Descripcion</td>
+                <td>@r.Fecha_reporte.ToString("dd/MM/yyyy HH:mm")</td>
+                <td><span class="badge bg-info">@r.EstadoReporte.Estado</span></td>
+                <td>
+                    @if (r.ID_tecnico_asignado != null)
+                    {
+                        <span>@r.TecnicoAsignado?.Nombre</span>
+                    }
+                    else
+                    {
+                        <span class="text muted">————</span>
+                    }
+                </td>
+                <td>
+                    @if (r.Evidencias?.Any() == true)
+                    {
+                        <ul>
+                            @foreach (var evidencia in r.Evidencias)
+                            {
+                                <li>
+                                    <a href="@evidencia.Ruta" target="_blank">Evidencia @evidencia.Numero_Evidencia</a>
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span class="badge bg-warning">——————</span>
+                    }
+                </td>
+                <td>
+                    @switch (r.Prioridad)
+                    {
+                        case "Critica":
+                            <span class="badge bg-danger">Crítica</span>
+                            break;
+                        case "Alta":
+                            <span class="badge bg-warning text-dark">Alta</span>
+                            break;
+                        case "Media":
+                            <span class="badge bg-warning">Media</span>
+                            break;
+                        case "Baja":
+                            <span class="badge bg-success">Baja</span>
+                            break;
+                        default:
+                            <span class="badge bg-secondary">—————</span>
+                            break;
+                    }
+                </td>
+                <td>
+                    @if (r.ID_estado_reporte == 2)
+                    {
+                        <form method="post" asp-page-handler="Asignar" asp-route-id="@r.ID_reporte"
+                            class="d-inline"
+                            onsubmit="return confirm('¿Asignar a este técnico?');">
+                            <select name="tecnicoId" class="form-select form-select-sm"
+                                    style="width: 180px; display:inline;"
+                                    onchange="if (confirm('¿Asignar a este técnico?')) this.form.submit();">
+                                <option value="">Asignar Técnico</option>
+                                @foreach (var t in Model.Tecnicos)
+                                {
+                                    <option value="@t.ID_usuario">@t.Nombre</option>
+                                }
+                            </select>
+                        </form>
+                    }
+
+                    <a class="btn btn-sm btn-primary ms-1" asp-page="/Ingeniero/ReportesPorEquipo"
+                        asp-route-id="@r.Equipo.ID_equipo">Ver Reportes
+                    </a>
+
+                    @if (r.ID_estado_reporte == 5 || r.ID_estado_reporte == 6)
+                    {
+                        <form method="post" asp-page-handler="Eliminar" asp-route-id="@r.ID_reporte"
+                            style="display:inline;" class="ms-1" onsubmit="return confirm('¿Seguro que deseas eliminar este reporte?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
+                        </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="/Ingeniero/Equipos" class="btn btn-secondary mt-3">Ir a Equipos</a>

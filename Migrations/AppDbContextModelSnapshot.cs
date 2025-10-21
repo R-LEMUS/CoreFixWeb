@@ -22,6 +22,32 @@ namespace CoreFixWeb.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("CoreFixWeb.Data.Archivado", b =>
+                {
+                    b.Property<int>("ID_archivado")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_archivado"));
+
+                    b.Property<DateTime>("Fecha_archivado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ID_reporte")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ID_usuario")
+                        .HasColumnType("int");
+
+                    b.HasKey("ID_archivado");
+
+                    b.HasIndex("ID_reporte");
+
+                    b.HasIndex("ID_usuario");
+
+                    b.ToTable("Archivados");
+                });
+
             modelBuilder.Entity("CoreFixWeb.Data.Equipo", b =>
                 {
                     b.Property<int>("ID_equipo")
@@ -80,6 +106,9 @@ namespace CoreFixWeb.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID_estado_reporte"));
 
                     b.Property<string>("Estado")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Prioridad")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ID_estado_reporte");
@@ -183,7 +212,13 @@ namespace CoreFixWeb.Migrations
                     b.Property<int>("ID_estado_reporte")
                         .HasColumnType("int");
 
+                    b.Property<int?>("ID_supervisor_validador")
+                        .HasColumnType("int");
+
                     b.Property<int?>("ID_tecnico_asignado")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ID_tecnico_validador")
                         .HasColumnType("int");
 
                     b.Property<int>("ID_usuario")
@@ -192,7 +227,10 @@ namespace CoreFixWeb.Migrations
                     b.Property<int>("Numero_Reporte")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TecnicoAsignadoID_usuario")
+                    b.Property<string>("Prioridad")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("TecnicoValidadorID_usuario")
                         .HasColumnType("int");
 
                     b.HasKey("ID_reporte");
@@ -201,9 +239,13 @@ namespace CoreFixWeb.Migrations
 
                     b.HasIndex("ID_estado_reporte");
 
+                    b.HasIndex("ID_supervisor_validador");
+
+                    b.HasIndex("ID_tecnico_asignado");
+
                     b.HasIndex("ID_usuario");
 
-                    b.HasIndex("TecnicoAsignadoID_usuario");
+                    b.HasIndex("TecnicoValidadorID_usuario");
 
                     b.ToTable("Reportes");
                 });
@@ -231,6 +273,25 @@ namespace CoreFixWeb.Migrations
                     b.HasKey("ID_usuario");
 
                     b.ToTable("Usuarios");
+                });
+
+            modelBuilder.Entity("CoreFixWeb.Data.Archivado", b =>
+                {
+                    b.HasOne("CoreFixWeb.Data.Reporte", "Reporte")
+                        .WithMany()
+                        .HasForeignKey("ID_reporte")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CoreFixWeb.Data.Usuario", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("ID_usuario")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Reporte");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("CoreFixWeb.Data.Evidencia", b =>
@@ -282,21 +343,35 @@ namespace CoreFixWeb.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CoreFixWeb.Data.Usuario", "SupervisorValidador")
+                        .WithMany()
+                        .HasForeignKey("ID_supervisor_validador")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("CoreFixWeb.Data.Usuario", "TecnicoAsignado")
+                        .WithMany()
+                        .HasForeignKey("ID_tecnico_asignado")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("CoreFixWeb.Data.Usuario", "Usuario")
                         .WithMany("Reportes")
                         .HasForeignKey("ID_usuario")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CoreFixWeb.Data.Usuario", "TecnicoAsignado")
+                    b.HasOne("CoreFixWeb.Data.Usuario", "TecnicoValidador")
                         .WithMany()
-                        .HasForeignKey("TecnicoAsignadoID_usuario");
+                        .HasForeignKey("TecnicoValidadorID_usuario");
 
                     b.Navigation("Equipo");
 
                     b.Navigation("EstadoReporte");
 
+                    b.Navigation("SupervisorValidador");
+
                     b.Navigation("TecnicoAsignado");
+
+                    b.Navigation("TecnicoValidador");
 
                     b.Navigation("Usuario");
                 });

@@ -6,18 +6,35 @@
 
 <h2>Mis Reportes</h2>
 
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["MensajeExito"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["MensajeError"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
 <a class="btn btn-sm btn-primary" asp-page="/Empleado/NuevoReporte">Crear Reporte</a>
 
 <table class="table mt-3">
     <thead>
         <tr>
             <th>Folio</th>
-            <th>Usuario</th>
             <th>Fecha</th>
             <th>Equipo</th>
             <th>Descripción</th>
             <th>Estado</th>
             <th>Evidencias</th>
+            <th>Prioridad</th>
+            <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
@@ -25,11 +42,10 @@
         {
             <tr>
                 <td>@r.Numero_Reporte</td>
-                <td>@r.Usuario?.Nombre</td>
                 <td>@r.Fecha_reporte.ToString("dd/MM/yyyy HH:mm")</td>
                 <td>@r.Equipo?.Nombre</td>
                 <td>@r.Descripcion</td>
-                <td>@r.EstadoReporte.Estado</td>
+                <td><span class="badge bg-info">@r.EstadoReporte.Estado</span></td>
                 <td>
                     @if (r.Evidencias != null && r.Evidencias.Any())
                     {
@@ -44,14 +60,34 @@
                     }
                     else
                     {
-                        <span>No hay evidencias</span>
+                        <span class="badge bg-warning">——————</span>
+                    }
+                </td>
+                <td>
+                    @switch (r.Prioridad)
+                    {
+                        case "Critica":
+                            <span class="badge bg-danger">Crítica</span>
+                            break;
+                        case "Alta":
+                            <span class="badge bg-warning text-dark">Alta</span>
+                            break;
+                        case "Media":
+                            <span class="badge bg-warning">Media</span>
+                            break;
+                        case "Baja":
+                            <span class="badge bg-success">Baja</span>
+                            break;
+                        default:
+                            <span class="badge bg-secondary">—————</span>
+                            break;
                     }
                 </td>
                 <td>
                     @if (r.ID_estado_reporte == 7)
                     {
                         <form method="post" asp-page-handler="Reenviar" asp-route-id="@r.ID_reporte"
-                            style="display:inline;">
+                            style="display:inline;" onsubmit="return confirm('¿Seguro que deseas reenviar este reporte?');">
                             <button type="submit" class="btn btn-sm btn-primary">Reenviar</button>
                         </form>
                     }
@@ -60,9 +96,8 @@
                         <a class="btn btn-sm btn-primary" asp-page="./SubirEvidencias" asp-route-id="
                         @r.ID_reporte">Subir Evidencias</a>
                     }
-                </td>
-                <td>
-                    <form method="post" asp-page-handler="Eliminar" asp-route-id="@r.ID_reporte" style="display:inline;">
+                    <form method="post" asp-page-handler="Eliminar" asp-route-id="@r.ID_reporte" 
+                        style="display:inline;" onsubmit="return confirm('¿Seguro que deseas eliminar este reporte?');">
                         <button type="submit" class="btn btn-sm btn-danger">Eliminar</button>
                     </form>
                 </td>

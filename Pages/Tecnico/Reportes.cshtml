@@ -1,0 +1,85 @@
+@page
+@model CoreFixWeb.Pages.Tecnico.ReportesModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Mis Reportes</h2>
+
+@if (TempData["MensajeExito"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        @TempData["MensajeExito"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["MensajeError"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["MensajeError"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<table class="table mt-3">
+    <thead>
+        <tr>
+            <th>Folio</th>
+            <th>Equipo</th>
+            <th>Descripción</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Evidencias</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in Model.Reportes)
+        {
+            <tr>
+                <td>@r.Numero_Reporte</td>
+                <td>@r.Equipo?.Nombre</td>
+                <td>@r.Descripcion</td>
+                <td>@r.Fecha_reporte.ToString("dd/MM/yyyy HH:mm")</td>
+                <td><span class="badge bg-info">@r.EstadoReporte.Estado</span></td>
+                <td>
+                    @if (r.Evidencias?.Any() == true)
+                    {
+                        <ul>
+                            @foreach (var e in r.Evidencias)
+                            {
+                                <li><a href="@e.Ruta" target="_blank">Evidencias @e.Numero_Evidencia</a></li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <span class="text-muted">——————</span>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-secondary ms-1" asp-page="/Tecnico/Detalles" asp-route-id=
+                        "@r.ID_reporte">Ver</a>
+                    @if (r.ID_estado_reporte == 4)
+                    {    
+                    <a class="btn btn-sm btn-primary" asp-page="./SubirEvidencias" asp-route-id="
+                        @r.ID_reporte">Subir Evidencias</a>
+                    }
+                    @if (r.ID_estado_reporte == 3)
+                    {
+                    <form method="post" asp-page-handler="IniciarProceso" asp-route-id="@r.ID_reporte" style="display:inline;">
+                        <button type="submit" class="btn btn-sm btn-primary">Iniciar Proceso</button>
+                    </form>
+                    }
+                    @if (r.ID_estado_reporte == 4)
+                    {
+                    <form method="post" asp-page-handler="Validar" asp-route-id="@r.ID_reporte" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-success">Validar</button>
+                    </form>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

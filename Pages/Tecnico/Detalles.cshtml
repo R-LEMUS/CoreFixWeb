@@ -1,0 +1,74 @@
+@page
+@model CoreFixWeb.Pages.Tecnico.DetallesModel
+@{
+    Layout = "_Layout";
+
+    var tecnicoId = int.Parse(User.Claims.First(c => c.Type == "ID_usuario").Value);
+}
+
+<h2>Detalles del Reporte #@Model.Reporte.Numero_Reporte</h2>
+
+<div class="card mb-3">
+    <div class="card-body">
+        <p><strong>Empleado:</strong> @Model.Reporte.Usuario?.Nombre</p>
+        <p><strong>Equipo:</strong> @Model.Reporte.Equipo?.Nombre</p>
+        <p><strong>Fecha:</strong> @Model.Reporte.Fecha_reporte.ToString("dd/MM/yyyy HH:mm")</p>
+        <p><strong>Estado:</strong> <span class="badge bg-info">@Model.Reporte.EstadoReporte?.Estado</span></p>
+        <p><strong>Descripción:</strong></p>
+        <p>@Model.Reporte.Descripcion</p>
+
+        <h4>Evidencias</h4>
+
+        @if (Model.Reporte.Evidencias?.Any() == true)
+        {
+            <ul class="nav nav-tabs mb-3" id="evidenciasTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="empleado-tab" data-bs-toggle="tab" data-bs-target="#empleado" type="button" role="tab">Empleado</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="tecnico-tab" data-bs-toggle="tab" data-bs-target="#tecnico" type="button" role="tab">Técnico</button>
+                </li>
+            </ul>
+
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="empleado" role="tabpanel">
+                    @if (Model.Reporte.Evidencias.Any(e => e.ID_usuario != tecnicoId))
+                    {
+                        <ul>
+                            @foreach (var e in Model.Reporte.Evidencias.Where(ev => ev.ID_usuario != tecnicoId).OrderBy(ev => ev.Numero_Evidencia))
+                            {
+                                <li><a href="@e.Ruta" target="_blank">Evidencia @e.Numero_Evidencia</a></li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No hay evidencias del empleado</p>
+                    }
+                </div>
+
+                <div class="tab-pane fade" id="tecnico" role="tabpanel">
+                    @if (Model.Reporte.Evidencias.Any(e => e.ID_usuario == tecnicoId))
+                    {
+                        <ul>
+                            @foreach (var e in Model.Reporte.Evidencias.Where(ev => ev.ID_usuario == tecnicoId).OrderBy(ev => ev.Numero_Evidencia))
+                            {
+                                <li><a href="@e.Ruta" target="_blank">Evidencia @e.Numero_Evidencia</a></li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <p class="text-muted">No hay evidencias del técnico</p>
+                    }
+                </div>
+            </div>
+        }
+        else
+        {
+            <p class="text-muted">—</p>
+        }
+    </div>
+</div>
+
+<a asp-page="/Tecnico/Reportes" class="btn btn-secondary mt-3">Regresar</a>

@@ -1,0 +1,55 @@
+@page
+@model CoreFixWeb.Pages.Ingeniero.EquiposModel
+@{
+    Layout = "_Layout";
+}
+
+<h2>Equipos Industriales</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Equipo</th>
+            <th>Ubicación</th>
+            <th>Total Reportes</th>
+            <th>Último Reporte</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Equipos)
+        {
+            <tr>
+                <td>@item.Equipo.Nombre</td>
+                <td>@item.Equipo.Ubicacion</td>
+                <td>
+                    @if (item.TotalReportes > 0)
+                    {
+                        <span class="badge bg-@(item.TotalReportes > 3 ? "danger" : "warning")">@item.TotalReportes</span>
+                    }
+                    else
+                    {
+                        <span class="badge bg-success">0</span>
+                    }
+                </td>
+                <td>
+                    @if (item.UltimoReporte != null)
+                    {
+                        <span>@item.UltimoReporte.Fecha_reporte.ToString("dd/MM/yyyy HH:mm")</span>
+                        <br />
+                        <small>@item.UltimoReporte.EstadoReporte?.Estado</small>
+                    }
+                </td>
+                <td>
+                    <a class="btn btn-sm btn-primary" 
+                       asp-page="/Ingeniero/ReportesPorEquipo" 
+                       asp-route-id="@item.Equipo.ID_equipo">
+                        Ver reportes
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-page="/Ingeniero/Reportes" class="btn btn-secondary mt-3">Ir a Reportes</a>

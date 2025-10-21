@@ -53,20 +53,24 @@ namespace CoreFixWeb.Pages
             await HttpContext.SignInAsync
             (CookieAuthenticationDefaults.AuthenticationScheme, principal);
 
-            if(usuario.Puesto == "Empleado")
+            if (usuario.Puesto == "Empleado")
             {
                 return RedirectToPage("/Empleado/Reportes");
             }
-            else if(usuario.Puesto == "Supervisor")
+            else if (usuario.Puesto == "Supervisor")
             {
                 return RedirectToPage("/Supervisor/Reportes");
             }
-            else if(usuario.Puesto == "Ingeniero")
+            else if (usuario.Puesto == "Ingeniero")
             {
                 return RedirectToPage("/Ingeniero/Reportes");
             }
+            if (usuario.Puesto == "Técnico")
+            {
+                return RedirectToPage("/Tecnico/Reportes");
+            }
 
-            return RedirectToPage("/Reportes");
+            return RedirectToPage("/Index");
         }
     }
 }

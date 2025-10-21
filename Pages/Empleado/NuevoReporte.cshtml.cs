@@ -15,6 +15,14 @@ namespace CoreFixWeb.Pages.Empleado
         public Reporte Reporte { get; set; }
         public List<SelectListItem> Equipos { get; set; }
 
+        public List<SelectListItem> Prioridades { get; } = new()
+        {
+            new SelectListItem("Baja", "Baja"),
+            new SelectListItem("Media", "Media"),
+            new SelectListItem("Alta", "Alta"),
+            new SelectListItem("Critica", "Critica")
+        };
+
         public NuevoReporteModel(AppDbContext context)
         {
             _context = context;

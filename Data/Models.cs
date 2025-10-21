@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CoreFixWeb.Data
 {
@@ -22,6 +23,11 @@ namespace CoreFixWeb.Data
 
     public class Equipo
     {
+        public Equipo()
+        {
+            Reportes = new List<Reporte>();
+        }
+        
         [Key]
         public int ID_equipo { get; set; }
         public string? Nombre { get; set; }
@@ -49,6 +55,7 @@ namespace CoreFixWeb.Data
         [Key]
         public int ID_estado_reporte { get; set; }
         public string? Estado { get; set; }
+        public string? Prioridad { get; set; }
 
         // Relación con Reporte
         public ICollection<Reporte>? Reportes { get; set; }
@@ -65,6 +72,8 @@ namespace CoreFixWeb.Data
         public DateTime Fecha_reporte { get; set; }
         public DateTime? Fecha_cierre { get; set; }
 
+        public string? Prioridad { get; set; }
+
         public int Numero_Reporte { get; set; }
 
         // Relaciones
@@ -76,6 +85,9 @@ namespace CoreFixWeb.Data
 
         public int? ID_supervisor_validador { get; set; }
         public Usuario? SupervisorValidador { get; set; }
+
+        public int? ID_tecnico_validador { get; set; }
+        public Usuario? TecnicoValidador { get; set; }
 
         // Relación con Evidencia
         public ICollection<Evidencia>? Evidencias { get; set; }
@@ -113,5 +125,18 @@ namespace CoreFixWeb.Data
         // Relaciones
         public Equipo? Equipo { get; set; }
         public Reporte? Reporte { get; set; }
+    }
+
+    public class Archivado
+    {
+        [Key]
+        public int ID_archivado { get; set; }
+
+        [ForeignKey("Reporte")] public int ID_reporte { get; set; }
+
+        [ForeignKey("Usuario")] public int ID_usuario { get; set; }
+        public DateTime Fecha_archivado { get; set; }
+        public Reporte? Reporte { get; set; }
+        public Usuario? Usuario { get; set; }
     }
 }

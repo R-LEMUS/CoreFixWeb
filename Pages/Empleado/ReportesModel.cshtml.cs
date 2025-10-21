@@ -35,8 +35,6 @@ namespace CoreFixWeb.Pages.Empleado
                 .Where(r => r.ID_usuario == idEmpleado &&
                 (r.ID_estado_reporte == 1 || r.ID_estado_reporte == 7))
                 .Include(r => r.EstadoReporte)
-                .Include(r => r.TecnicoAsignado)
-                .Include(r => r.Usuario)
                 .Include(r => r.Equipo)
                 .Include(r => r.Evidencias)
                 .ToListAsync();
@@ -61,6 +59,8 @@ namespace CoreFixWeb.Pages.Empleado
             _context.Reportes.Remove(reporte);
             _context.SaveChanges();
 
+            TempData["MensajeExito"] = "Reporte eliminado";
+
             return RedirectToPage();
         }
         
@@ -68,7 +68,10 @@ namespace CoreFixWeb.Pages.Empleado
         {
             var reporte = await _context.Reportes.FindAsync(id);
             if (reporte == null || reporte.ID_estado_reporte != 7)
-                return BadRequest("Solo se pueden reenviar reportes rechazados.");
+            {
+                TempData["MensajeError"] = "Solo se pueden reenviar reportes rechazados";
+                return RedirectToPage();
+            }
 
             var idEmpleado = int.Parse(User.Claims.First(c => c.Type == "ID_usuario").Value);
             if (reporte.ID_usuario != idEmpleado)
@@ -77,6 +80,8 @@ namespace CoreFixWeb.Pages.Empleado
             reporte.ID_estado_reporte = 1;
             _context.Reportes.Update(reporte);
             await _context.SaveChangesAsync();
+
+            TempData["MensajeExito"] = "Reporte reenviado";
 
             return RedirectToPage();
         }
