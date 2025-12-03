@@ -60,7 +60,10 @@
                 </td>
                 <td>
                     <a class="btn btn-sm btn-secondary ms-1" asp-page="/Tecnico/Detalles" asp-route-id=
-                        "@r.ID_reporte">Ver</a>
+                        "@r.ID_reporte">Ver Detalles</a>
+                    <a class="btn btn-sm btn-primary" asp-page="/Tecnico/DetallesEquipo" asp-route-id="
+                        @r.ID_equipo">Ver Equipo
+                    </a>
                     @if (r.ID_estado_reporte == 4)
                     {    
                     <a class="btn btn-sm btn-primary" asp-page="./SubirEvidencias" asp-route-id="

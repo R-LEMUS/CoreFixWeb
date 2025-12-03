@@ -1,0 +1,57 @@
+@page "{id:int}"
+@model CoreFixWeb.Pages.Ingeniero.DetallesEquipoModel
+
+<h2 class="mb-3">Detalles del Equipo</h2>
+
+<div class="card p-4 shadow-sm">
+
+    <h3>@Model.Equipo.Nombre</h3>
+
+    <p><strong>Ubicación:</strong> @Model.Equipo.Ubicacion</p>
+    <p><strong>Descripción:</strong> @Model.Equipo.Descripcion</p>
+    <p><strong>Número de Serie:</strong> @Model.Equipo.Numero_serie</p>
+    <p><strong>Modelo:</strong> @Model.Equipo.Modelo</p>
+    <p><strong>Marca:</strong> @Model.Equipo.Marca</p>
+    <p><strong>Fabricante:</strong> @Model.Equipo.Fabricante</p>
+    <p><strong>Fecha de Fabricación:</strong> @Model.Equipo.Fecha_fabricacion?.ToShortDateString()</p>
+    <p><strong>Fecha de Adquisición:</strong> @Model.Equipo.Fecha_adquisicion?.ToShortDateString()</p>
+    <p><strong>Área de Producción:</strong> @Model.Equipo.Area_Produccion</p>
+    <p><strong>Dimensiones:</strong> @Model.Equipo.Dimensiones</p>
+    <p><strong>Peso:</strong> @Model.Equipo.Peso kg</p>
+
+</div>
+
+<hr />
+
+<h3>Reportes Asociados</h3>
+
+@if (Model.Equipo.Reportes != null && Model.Equipo.Reportes.Any())
+{
+    <table class="table table-bordered table-striped mt-3">
+        <thead>
+            <tr>
+                <th>N° Reporte</th>
+                <th>Fecha</th>
+                <th>Estado</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach (var rep in Model.Equipo.Reportes.OrderByDescending(r => r.Fecha_reporte))
+        {
+            <tr>
+                <td>@rep.Numero_Reporte</td>
+                <td>@rep.Fecha_reporte.ToShortDateString()</td>
+                <td>@rep.EstadoReporte?.Estado</td>      
+                <td>@rep.Descripcion</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>No hay reportes disponibles para este equipo.</p>
+}
+
+<a asp-page="/Ingeniero/Equipos" class="btn btn-secondary mt-3">Volver a Equipos</a>

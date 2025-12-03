@@ -16,7 +16,6 @@ namespace CoreFixWeb.Data
 
         // Relación con Reporte
         public ICollection<Reporte>? Reportes { get; set; }
-
         // Relación con Evidencia
         public ICollection<Evidencia>? Evidencias { get; set; }
     }
@@ -45,7 +44,6 @@ namespace CoreFixWeb.Data
 
         // Relación con Reporte
         public ICollection<Reporte>? Reportes { get; set; }
-
         // Relación con Mantenimiento
         public ICollection<Mantenimiento>? Mantenimientos { get; set; }
     }
@@ -71,9 +69,7 @@ namespace CoreFixWeb.Data
         public string? Descripcion { get; set; }
         public DateTime Fecha_reporte { get; set; }
         public DateTime? Fecha_cierre { get; set; }
-
         public string? Prioridad { get; set; }
-
         public int Numero_Reporte { get; set; }
 
         // Relaciones
@@ -82,10 +78,8 @@ namespace CoreFixWeb.Data
         public Estado_reporte? EstadoReporte { get; set; }
         public int? ID_tecnico_asignado { get; set; }
         public Usuario? TecnicoAsignado { get; set; }
-
         public int? ID_supervisor_validador { get; set; }
         public Usuario? SupervisorValidador { get; set; }
-
         public int? ID_tecnico_validador { get; set; }
         public Usuario? TecnicoValidador { get; set; }
 
@@ -103,7 +97,6 @@ namespace CoreFixWeb.Data
         public string? Descripcion { get; set; }
         public string? Ruta { get; set; }
         public DateTime Fecha_subida { get; set; }
-
         public int Numero_Evidencia { get; set; }
 
         // Relaciones
@@ -133,8 +126,8 @@ namespace CoreFixWeb.Data
         public int ID_archivado { get; set; }
 
         [ForeignKey("Reporte")] public int ID_reporte { get; set; }
-
         [ForeignKey("Usuario")] public int ID_usuario { get; set; }
+
         public DateTime Fecha_archivado { get; set; }
         public Reporte? Reporte { get; set; }
         public Usuario? Usuario { get; set; }

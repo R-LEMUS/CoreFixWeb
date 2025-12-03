@@ -46,6 +46,10 @@
                        asp-route-id="@item.Equipo.ID_equipo">
                         Ver reportes
                     </a>
+
+                    <a asp-page="/Ingeniero/DetallesEquipo" asp-route-id="@item.Equipo.ID_equipo" class="btn btn-sm btn-primary">
+                        Ver equipo
+                    </a>
                 </td>
             </tr>
         }
